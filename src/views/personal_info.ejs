@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <title>Personal Information</title>
+</head>
+<body>
+    <h1>Personal Information for <%= user.username %></h1>
+    <p>Full Name: <%= user.full_name %></p>
+    <p>Age: <%= user.age %></p>
+    <p>ID Number: <%= user.id_number %></p>
+    <p>Bank Account Number: <%= user.bank_account_number %></p>
+    <p>Account Balance: <%= user.account_balance %></p>
+    <a style="color: brown;background: burlywood;padding: 10px;border-radius: 6px;/* text-underline-offset: unset; */text-decoration: none;" href="/v1/api/userSuccess">
+        userCheckSuccess
+    </a>
+</body>
+</html>
