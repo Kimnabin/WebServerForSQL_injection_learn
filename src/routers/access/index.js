@@ -63,7 +63,7 @@ router.post('/userSuccess', (req, res) => {
     if (id) {
         const sanitizedId = db.escape(id); // chống SQL Injection
 
-        const query = `SELECT username FROM users WHERE id = ${sanitizedId}`;
+        const query = `SELECT username, password FROM users WHERE id = ${sanitizedId}`;
         console.log(`Executed query: ${query}`);
 
         db.query(query, (err, results) => {
@@ -73,8 +73,9 @@ router.post('/userSuccess', (req, res) => {
             }
 
             exists = results.length > 0;
+            console.log("Results: >> ", results);
             if (exists) {
-                res.send('<pre>User ID exists in the database.</pre>');
+                res.render("user.ejs", {user: results[0]});
             } else {
                 res.send('<pre>User ID is MISSING from the database.</pre>');
             }
