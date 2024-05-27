@@ -4,11 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
-<body>
-    <p>userName: </p>
-    <input style="color: crimson;" value=<%= user.username %> disabled  />
-    <p>password: </p>
-    <input style="color: crimson;" value=<%= user.password %> disabled />
+<body class="w3-container">
+
+    <div class="w3-card-4 w3-margin w3-padding">
+        <h2>User Information</h2>
+        <% for(let i = 0; i < users.length; i++) { %>
+        <div class="w3-margin-bottom">
+            <label for="username_<%= i %>">Username:</label>
+            <input class="w3-input w3-border" style="color: crimson;" id="username_<%= i %>" value="<%= users[i].username %>" disabled />
+        </div>
+        <div class="w3-margin-bottom">
+            <label for="password_<%= i %>">Password:</label>
+            <input class="w3-input w3-border" style="color: crimson;" id="password_<%= i %>" value="<%= users[i].password %>" disabled />
+        </div>
+        <% } %>
+    </div>
+
 </body>
 </html>

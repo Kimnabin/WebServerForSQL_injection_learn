@@ -13,6 +13,7 @@ router.get('/login', (req, res) => {
 router.post('/login', (req, res) => {
     const data = req.body;
     console.log("Data: ", data);
+    
     const username = req.body.username;
     const password = req.body.password;
 
@@ -51,8 +52,10 @@ router.get('/personal-info/:username', (req, res) => {
     });
 });
 
-router.get('/userSuccess', (req, res) => {
-    res.render("userSuccess.ejs");
+router.get('/userSuccess/:id', (req, res) => {
+    const id = req.params.id;
+    // console.log("userID :: " + id);
+    res.render("userSuccess.ejs", {userId: id});
 })
 
 // Route để kiểm tra ID người dùng
@@ -61,9 +64,11 @@ router.post('/userSuccess', (req, res) => {
     let exists = false;
 
     if (id) {
-        const sanitizedId = db.escape(id); // chống SQL Injection
+        // const sanitizedId = db.escape(id); // chống SQL Injection
 
-        const query = `SELECT username, password FROM users WHERE id = ${sanitizedId}`;
+        // const query = `SELECT username, password FROM users WHERE id = ${sanitizedId}`;
+        const query = `SELECT username, password FROM users WHERE id = '${id}'`;
+
         console.log(`Executed query: ${query}`);
 
         db.query(query, (err, results) => {
@@ -75,7 +80,7 @@ router.post('/userSuccess', (req, res) => {
             exists = results.length > 0;
             console.log("Results: >> ", results);
             if (exists) {
-                res.render("user.ejs", {user: results[0]});
+                res.render("user.ejs", {users: results});
             } else {
                 res.send('<pre>User ID is MISSING from the database.</pre>');
             }
@@ -84,6 +89,35 @@ router.post('/userSuccess', (req, res) => {
         res.send('<pre>Invalid ID</pre>');
     }
 });
+
+router.get('/products', (req, res) => {
+    const query = 'SELECT name, quantity, price FROM products WHERE isPublish = TRUE;';
+
+    db.query(query, (err, results) => {
+
+        if (err) {
+            console.error('Error executing query:', err);
+            return res.send('<pre>There was an error.</pre>');
+        }
+
+        res.render('products', { products: results });
+    });
+});
+
+router.post('/products/search', (req, res) => {
+    const searchTerm = req.body.searchTerm;
+    const query = `SELECT name, quantity, price FROM products WHERE name LIKE '%${searchTerm}%'`;
+
+    console.log(`Executed query: ${query}`);
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err);
+            return res.send('<pre>There was an error.</pre>');
+        }
+
+        res.render('products', { products: results });
+    });
+})
 
 
 module.exports = router;
